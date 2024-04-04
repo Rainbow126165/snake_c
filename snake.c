@@ -3,13 +3,13 @@
 #include <Windows.h>
 #include <time.h>
 #include <conio.h>
-#define Width 25								//¶¨ÒåµØÍ¼´óĞ¡£¨¿É¸Ä£©£¬Ä¬ÈÏÖµ25£¬×îĞ¡15£¬×î´ó50
-int hX = 1, hY = 1, len = 4;					//¶¨ÒåÉßÍ·×ø±ê£¬Éß³¤
-int* map = NULL;								//¼ÇÂ¼µØÍ¼·½¿é£¬Ê³Îï(-1)£¬Ç½(-2)£¬×Ô¼º(>=1)£¬¿ÕµØ(0)
-int map_temp[Width * Width] = { 0 };			//¼ÇÂ¼ĞèÒª¸ü¸ÄµÄÓÎÏ·»­Ãæ×ø±ê
-int c = 'd', cl = 'd', i = 0;					//·½Ïò£¬·½Ïò»º´æ£¬Ñ­»·±äÁ¿
-char n_1, n_2 = '4', n_3, j = 0;				//n_1Ñ¡ÔñÄ£Ê½£¬n_2Ñ¡ÔñÄÑ¶È,n_3ÎªÃÔ¹¬Ñ¡Ôñ,jÎª×Ö·û»º´æ
-char deaw[Width * Width * 2 + 1] = { 0 };		//»æÖÆ»º´æ
+#define Width 25								//å®šä¹‰åœ°å›¾å¤§å°ï¼ˆå¯æ”¹ï¼‰ï¼Œé»˜è®¤å€¼25ï¼Œæœ€å°15ï¼Œæœ€å¤§50
+int hX = 1, hY = 1, len = 4;					//å®šä¹‰è›‡å¤´åæ ‡ï¼Œè›‡é•¿
+int* map = NULL;								//è®°å½•åœ°å›¾æ–¹å—ï¼Œé£Ÿç‰©(-1)ï¼Œå¢™(-2)ï¼Œè‡ªå·±(>=1)ï¼Œç©ºåœ°(0)
+int map_temp[Width * Width] = { 0 };			//è®°å½•éœ€è¦æ›´æ”¹çš„æ¸¸æˆç”»é¢åæ ‡
+int c = 'd', cl = 'd', i = 0;					//æ–¹å‘ï¼Œæ–¹å‘ç¼“å­˜ï¼Œå¾ªç¯å˜é‡
+char n_1, n_2 = '4', n_3, j = 0;				//n_1é€‰æ‹©æ¨¡å¼ï¼Œn_2é€‰æ‹©éš¾åº¦,n_3ä¸ºè¿·å®«é€‰æ‹©,jä¸ºå­—ç¬¦ç¼“å­˜
+char deaw[Width * Width * 2 + 1] = { 0 };		//ç»˜åˆ¶ç¼“å­˜
 
 void Menu();
 void Create_Map();
@@ -23,34 +23,34 @@ int  GameOver();
 int main(void)
 {
 	sprintf(deaw, "mode con: cols=%d lines=%d", Width * 2, Width);
-	system(deaw);						//ĞŞ¸Ä¿ØÖÆÌ¨´°¿Ú´óĞ¡
-	srand((unsigned)time(0));			//Éú³ÉËæ»úÊı
+	system(deaw);						//ä¿®æ”¹æ§åˆ¶å°çª—å£å¤§å°
+	srand((unsigned)time(0));			//ç”Ÿæˆéšæœºæ•°
 	map = (int*)malloc((Width * Width) * sizeof(int));
 	if (map == NULL)
 	{
 		printf("No enough memory!\n");
 		exit(1);
 	}
-	do {								//Ëæ»úÉú³É½çÃæÑÕÉ«
+	do {								//éšæœºç”Ÿæˆç•Œé¢é¢œè‰²
 		i = rand() % 6;
 	} while (i == 3);
 	sprintf(deaw, "color F%d", i);
 	system(deaw);
-	Menu();								//³õÊ¼»¯²Ëµ¥
+	Menu();								//åˆå§‹åŒ–èœå•
 	system("cls");
 	sprintf(deaw, "color 0%d", i);
 	system(deaw);
 	do {
-		hX = 1, hY = 1, len = 4;		//³õÊ¼»¯ÉßÍ¼ĞÎÊı¾İ
+		hX = 1, hY = 1, len = 4;		//åˆå§‹åŒ–è›‡å›¾å½¢æ•°æ®
 		c = 'd', cl = 'd', i = 0;
-		for (i = 0; i < Width * Width; i++)				//³õÊ¼»¯µØÍ¼Î§Ç½
+		for (i = 0; i < Width * Width; i++)				//åˆå§‹åŒ–åœ°å›¾å›´å¢™
 		{
 			map[i] = 0;
 			map_temp[i] = 1;
 		}
-		Create_Map();									//Éú³ÉµØÍ¼
-		Hide_Move_Cursor(0, 0);							//½«¹â±êÒÆÖÁÖ¸¶¨Î»ÖÃ²¢Òş²Ø
-		Print_Map();									//´òÓ¡»­Ãæ
+		Create_Map();									//ç”Ÿæˆåœ°å›¾
+		Hide_Move_Cursor(0, 0);							//å°†å…‰æ ‡ç§»è‡³æŒ‡å®šä½ç½®å¹¶éšè—
+		Print_Map();									//æ‰“å°ç”»é¢
 		if (n_1 == '1' || n_1 == '2' || (n_1 == '3' && n_3 == '1'))
 		{
 			hX = 1; hY = 1;
@@ -60,106 +60,106 @@ int main(void)
 			hX = Width / 5;
 			hY = (2 * Width / 5 + 2);
 		}
-		for (i = 0; i < Width * Width; i++)				//³õÊ¼»¯¼ÇÂ¼Êı×é
+		for (i = 0; i < Width * Width; i++)				//åˆå§‹åŒ–è®°å½•æ•°ç»„
 			map_temp[i] = 0;
 		do {
 			i = rand() % (Width * Width);
-		} while (map[i] != 0);							//·ÀÖ¹Ê³ÎïÎ»ÖÃÉú³ÉÔÚÉßÉí»òÇ½ÉÏ
-		map[i] = -1;									//Éú³ÉÊ³Îï
-		map_temp[i] = 1;								//ÊÇ·ñÉú³É£º1ÊÇ¡¢0·ñ
-		for (system("title µÃ·Ö:0"); 1; Sleep_time())	//³õÊ¼»¯¼Æ·Ö
+		} while (map[i] != 0);							//é˜²æ­¢é£Ÿç‰©ä½ç½®ç”Ÿæˆåœ¨è›‡èº«æˆ–å¢™ä¸Š
+		map[i] = -1;									//ç”Ÿæˆé£Ÿç‰©
+		map_temp[i] = 1;								//æ˜¯å¦ç”Ÿæˆï¼š1æ˜¯ã€0å¦
+		for (system("title å¾—åˆ†:0"); 1; Sleep_time())	//åˆå§‹åŒ–è®¡åˆ†
 		{
-			Move();										//¿ØÖÆÉßÒÆ¶¯
-			if (map[hY * Width + hX] > 1 ||				//ÅĞ¶ÏÊÇ·ñ³Ôµ½×Ô¼º
-				map[hY * Width + hX] == -2) break;		//ÅĞ¶ÏÊÇ·ñ×²Ç½
-			Food();										//³ÔÊ³ÎïÅĞ¶¨£¬Éú³ÉÊ³Îï
-			map[hY * Width + hX] = len;					//ÉßÍ·¸³Öµ
+			Move();										//æ§åˆ¶è›‡ç§»åŠ¨
+			if (map[hY * Width + hX] > 1 ||				//åˆ¤æ–­æ˜¯å¦åƒåˆ°è‡ªå·±
+				map[hY * Width + hX] == -2) break;		//åˆ¤æ–­æ˜¯å¦æ’å¢™
+			Food();										//åƒé£Ÿç‰©åˆ¤å®šï¼Œç”Ÿæˆé£Ÿç‰©
+			map[hY * Width + hX] = len;					//è›‡å¤´èµ‹å€¼
 			map_temp[hY * Width + hX] = 1;
-			Print_Map();								//´òÓ¡»­Ãæ
-			for (i = 0; i < Width * Width; i++)			//½«¼ÇÂ¼Êı×é³õÊ¼»¯
+			Print_Map();								//æ‰“å°ç”»é¢
+			for (i = 0; i < Width * Width; i++)			//å°†è®°å½•æ•°ç»„åˆå§‹åŒ–
 				map_temp[i] = 0;
 		}
-		sprintf(deaw, "title GameOver!µÃ·Ö:%d °´¿Õ¸ñ¼üÖØĞÂ¿ªÊ¼", len - 4);
-		system(deaw);				//½áÊøÌáĞÑ
-	} while (GameOver());			//ÊäÈë¿Õ¸ñÖØĞÂÓÎÏ·£¬ÊäÈëEscÍË³ö
-	Hide_Move_Cursor(Width * Width, Width);				//½áÊøÊ±½«¹â±êÒÆÖÁµØÍ¼ÏÂ·½
+		sprintf(deaw, "title GameOver!å¾—åˆ†:%d æŒ‰ç©ºæ ¼é”®é‡æ–°å¼€å§‹", len - 4);
+		system(deaw);				//ç»“æŸæé†’
+	} while (GameOver());			//è¾“å…¥ç©ºæ ¼é‡æ–°æ¸¸æˆï¼Œè¾“å…¥Escé€€å‡º
+	Hide_Move_Cursor(Width * Width, Width);				//ç»“æŸæ—¶å°†å…‰æ ‡ç§»è‡³åœ°å›¾ä¸‹æ–¹
 	free(map);
 	return 0;
 }
 
-//º¯Êı¹¦ÄÜ£ºÉú³É³õÊ¼²Ëµ¥
+//å‡½æ•°åŠŸèƒ½ï¼šç”Ÿæˆåˆå§‹èœå•
 void Menu()
 {
 	while (1)
 	{
-		system("cls");							//ÇåÆÁ
+		system("cls");							//æ¸…å±
 		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		COORD pos[7] = { 0 };
-		for (i = 0; i < 7; i++)					//¶¨Òå×ø±ê
+		for (i = 0; i < 7; i++)					//å®šä¹‰åæ ‡
 		{
 			pos[i].X = (Width - 7);
 			pos[i].Y = i * 2 + Width / 5;
 		}
-		SetConsoleCursorPosition(hOut, pos[0]);	//Éú³É³õÊ¼×ÖÄ»
-		printf("ÎÒµÄÌ°³ÔÉß");
+		SetConsoleCursorPosition(hOut, pos[0]);	//ç”Ÿæˆåˆå§‹å­—å¹•
+		printf("æˆ‘çš„è´ªåƒè›‡");
 		SetConsoleCursorPosition(hOut, pos[1]);
-		printf("1.¾­µäÄ£Ê½");
+		printf("1.ç»å…¸æ¨¡å¼");
 		SetConsoleCursorPosition(hOut, pos[2]);
-		printf("2.ÎŞÏŞÄ£Ê½");
+		printf("2.æ— é™æ¨¡å¼");
 		SetConsoleCursorPosition(hOut, pos[3]);
-		printf("3.ÃÔ¹¬Ä£Ê½");
+		printf("3.è¿·å®«æ¨¡å¼");
 		SetConsoleCursorPosition(hOut, pos[4]);
-		printf("4.ÓÎÏ·ËµÃ÷");
+		printf("4.æ¸¸æˆè¯´æ˜");
 		SetConsoleCursorPosition(hOut, pos[5]);
-		printf("5.ÍË³öÓÎÏ·");
+		printf("5.é€€å‡ºæ¸¸æˆ");
 		SetConsoleCursorPosition(hOut, pos[6]);
-		n_1 = getchar();						//ÊäÈëÑ¡Ôñ
-		while (getchar() != '\n');				//¶Á×ß»º³åÇø×Ö·û
+		n_1 = getchar();						//è¾“å…¥é€‰æ‹©
+		while (getchar() != '\n');				//è¯»èµ°ç¼“å†²åŒºå­—ç¬¦
 		if (n_1 == '1' || n_1 == '2')break;
 		else if (n_1 == '3')
 		{
-			system("cls");						//ÇåÆÁ
+			system("cls");						//æ¸…å±
 			SetConsoleCursorPosition(hOut, pos[0]);
-			printf(" ÃÔ¹¬Ä£Ê½");
+			printf(" è¿·å®«æ¨¡å¼");
 			SetConsoleCursorPosition(hOut, pos[1]);
-			printf(" 1.ÃÔ¹¬Ò»");
+			printf(" 1.è¿·å®«ä¸€");
 			SetConsoleCursorPosition(hOut, pos[2]);
-			printf(" 2.ÃÔ¹¬¶ş");
+			printf(" 2.è¿·å®«äºŒ");
 			SetConsoleCursorPosition(hOut, pos[3]);
 			printf(" ");
-			n_3 = getchar();					//ÊäÈëÑ¡Ôñ
-			while (getchar() != '\n');			//¶Á×ß»º³åÇø×Ö·û
+			n_3 = getchar();					//è¾“å…¥é€‰æ‹©
+			while (getchar() != '\n');			//è¯»èµ°ç¼“å†²åŒºå­—ç¬¦
 			if (n_3 == '1' || n_3 == '2')break;
 		}
 		else if (n_1 == '4')
 		{
-			system("cls");						//ÇåÆÁ
+			system("cls");						//æ¸…å±
 			printf("\n");
-			printf("  wasd(»òWSAD)»ò¡ü¡ı¡û¡ú ¡ª¡ªÒÆ¶¯\n");
-			printf("  ¿Õ¸ñ   ¡ª¡ªÔİÍ£ÓÎÏ·\n");
-			printf("  Esc    ¡ª¡ªÍË³öÓÎÏ·\n");
-			printf("  1234560¡ª¡ªµ÷ËÙ\n");
+			printf("  wasd(æˆ–WSAD)æˆ–â†‘â†“â†â†’ â€”â€”ç§»åŠ¨\n");
+			printf("  ç©ºæ ¼   â€”â€”æš‚åœæ¸¸æˆ\n");
+			printf("  Esc    â€”â€”é€€å‡ºæ¸¸æˆ\n");
+			printf("  1234560â€”â€”è°ƒé€Ÿ\n");
 
-			printf("  Çë°´»Ø³µ¼ü·µ»Ø¿ªÊ¼²Ëµ¥!\n");
-			while (getchar() != '\n');			//¶Á×ß»º³åÇø×Ö·û
+			printf("  è¯·æŒ‰å›è½¦é”®è¿”å›å¼€å§‹èœå•!\n");
+			while (getchar() != '\n');			//è¯»èµ°ç¼“å†²åŒºå­—ç¬¦
 		}
 		else if (n_1 == '5') exit(0);
 	}
 }
 
-//º¯Êı¹¦ÄÜ£ºÉú³ÉµØÍ¼
+//å‡½æ•°åŠŸèƒ½ï¼šç”Ÿæˆåœ°å›¾
 void Create_Map()
 {
-	if (n_1 == '1')									//¾­µäÄ£Ê½µØÍ¼
+	if (n_1 == '1')									//ç»å…¸æ¨¡å¼åœ°å›¾
 	{
-		for (i = 0; i < Width; i++)map[i] = -2;		//ÉßÕ¼Á½¿Õ"()",ËùÒÔ°Ñ2¿Õ×÷ÎªÒ»¸ñ
+		for (i = 0; i < Width; i++)map[i] = -2;		//è›‡å ä¸¤ç©º"()",æ‰€ä»¥æŠŠ2ç©ºä½œä¸ºä¸€æ ¼
 		for (i = Width; i < Width * (Width - 1); i += Width)
-			map[i] = map[i + Width - 1] = -2;		//Ã¿ĞĞµÚÒ»¸ñÓë×îºóÒ»¸ö²îWidth-1
+			map[i] = map[i + Width - 1] = -2;		//æ¯è¡Œç¬¬ä¸€æ ¼ä¸æœ€åä¸€ä¸ªå·®Width-1
 		for (i = 0; i < Width; i++)map[i + Width * (Width - 1)] = -2;
 	}
 	else if (n_1 == '3' && n_3 == '1')
 	{
-		for (i = 0; i < (Width - 1) / 2; i++)		//Éú³ÉÊ®×ÖĞÇµØÍ¼
+		for (i = 0; i < (Width - 1) / 2; i++)		//ç”Ÿæˆåå­—æ˜Ÿåœ°å›¾
 		{
 			map[i * Width + (Width - 1) / 2] = -2;
 		}
@@ -171,7 +171,7 @@ void Create_Map()
 		{
 			map[(i + (Width + 1) / 2) * Width + (Width - 1) / 2] = -2;
 		}
-		if (Width % 2 == 0)							//Å¼ÊıĞèÒªÔÙ¼ÓÒ»ĞĞÒ»ÁĞºÍÒ»¸öÊı
+		if (Width % 2 == 0)							//å¶æ•°éœ€è¦å†åŠ ä¸€è¡Œä¸€åˆ—å’Œä¸€ä¸ªæ•°
 		{
 			for (i = 0; i < Width; i++)
 			{
@@ -184,7 +184,7 @@ void Create_Map()
 			map[(Width - 1) * Width + (Width / 2) - 1] = -2;
 		}
 	}
-	else if (n_1 == '3' && n_3 == '2')				//Éú³ÉÃÔ¹¬¶ş
+	else if (n_1 == '3' && n_3 == '2')				//ç”Ÿæˆè¿·å®«äºŒ
 	{
 		for (i = (2 * Width / 5 * Width);
 			i < (2 * Width * Width / 5 + 2 * Width / 5); i++)map[i] = -2;
@@ -203,7 +203,7 @@ void Create_Map()
 	}
 }
 
-//º¯Êı¹¦ÄÜ£ºÉèÖÃÄÑ¶È(ÑÓ³ÙÊ±¼ä)
+//å‡½æ•°åŠŸèƒ½ï¼šè®¾ç½®éš¾åº¦(å»¶è¿Ÿæ—¶é—´)
 void Sleep_time()
 {
 	switch (n_2)
@@ -218,18 +218,18 @@ void Sleep_time()
 	}
 }
 
-//º¯Êı¹¦ÄÜ£º¿ØÖÆÉßÒÆ¶¯
+//å‡½æ•°åŠŸèƒ½ï¼šæ§åˆ¶è›‡ç§»åŠ¨
 void Move()
 {
-	if (_kbhit() && (cl = _getch()))					//ÅĞ¶ÏÊÇ·ñÊäÈë
+	if (_kbhit() && (cl = _getch()))					//åˆ¤æ–­æ˜¯å¦è¾“å…¥
 		switch (cl)
 		{
-		case 'a':case 'K':case'A':if (c != 'd')c = 'a'; break;//ÅĞ¶ÏÓëÔ­·½ÏòÊÇ·ñ³åÍ»
+		case 'a':case 'K':case'A':if (c != 'd')c = 'a'; break;//åˆ¤æ–­ä¸åŸæ–¹å‘æ˜¯å¦å†²çª
 		case 'd':case 'M':case'D': if (c != 'a')c = 'd'; break;
 		case 's':case 'P':case'S': if (c != 'w')c = 's'; break;
 		case 'w':case 'H':case'W': if (c != 's')c = 'w'; break;
-		case ' ':cl = _getch(); break;					//¿Õ¸ñÔİÍ£
-		case 27:exit(0); break;							//EscÍË³ö
+		case ' ':cl = _getch(); break;					//ç©ºæ ¼æš‚åœ
+		case 27:exit(0); break;							//Escé€€å‡º
 		case '1':n_2 = '1'; break;
 		case '2':n_2 = '2'; break;
 		case '3':n_2 = '3'; break;
@@ -239,7 +239,7 @@ void Move()
 		case '0':n_2 = '0'; break;
 
 		}
-	switch (c)						//ÒÆ¶¯ºóÉßÍ·×ø±êµÄ±ä»¯
+	switch (c)						//ç§»åŠ¨åè›‡å¤´åæ ‡çš„å˜åŒ–
 	{
 	case 'a':
 	{
@@ -248,7 +248,7 @@ void Move()
 			break;
 		}
 		else {
-			hX = hX + Width - 1;	//´©Ç½Ê±×ø±ê²¹³¥
+			hX = hX + Width - 1;	//ç©¿å¢™æ—¶åæ ‡è¡¥å¿
 			break;
 		}
 	}
@@ -259,7 +259,7 @@ void Move()
 			break;
 		}
 		else {
-			hX = hX - Width + 1;	//´©Ç½Ê±×ø±ê²¹³¥
+			hX = hX - Width + 1;	//ç©¿å¢™æ—¶åæ ‡è¡¥å¿
 			break;
 		}
 	}
@@ -270,7 +270,7 @@ void Move()
 			break;
 		}
 		else {
-			hY = hY - Width + 1;	//´©Ç½Ê±×ø±ê²¹³¥
+			hY = hY - Width + 1;	//ç©¿å¢™æ—¶åæ ‡è¡¥å¿
 			break;
 		}
 	}
@@ -281,28 +281,28 @@ void Move()
 			break;
 		}
 		else {
-			hY = hY + Width - 1;	//´©Ç½Ê±×ø±ê²¹³¥
+			hY = hY + Width - 1;	//ç©¿å¢™æ—¶åæ ‡è¡¥å¿
 			break;
 		}
 	}
 	}
 }
 
-//º¯Êı¹¦ÄÜ£º³ÔÊ³ÎïÅĞ¶¨ÓëËæ»úÉú³ÉÊ³Îï
+//å‡½æ•°åŠŸèƒ½ï¼šåƒé£Ÿç‰©åˆ¤å®šä¸éšæœºç”Ÿæˆé£Ÿç‰©
 void Food()
 {
-	if (map[hY * Width + hX] == -1)			//ÅĞ¶ÏÊÇ·ñ³Ôµ½Ê³Îï
+	if (map[hY * Width + hX] == -1)			//åˆ¤æ–­æ˜¯å¦åƒåˆ°é£Ÿç‰©
 	{
-		len++;								//Éß³¤+1
+		len++;								//è›‡é•¿+1
 		do {
 			i = rand() % (Width * Width);
-		} while (map[i] != 0);				//·ÀÖ¹Ê³ÎïÎ»ÖÃÉú³ÉÔÚÉßÉí»òÇ½ÉÏ
-		sprintf(deaw, "title µÃ·Ö:%d", len - 4);
-		system(deaw);						//·ÖÊı+1
+		} while (map[i] != 0);				//é˜²æ­¢é£Ÿç‰©ä½ç½®ç”Ÿæˆåœ¨è›‡èº«æˆ–å¢™ä¸Š
+		sprintf(deaw, "title å¾—åˆ†:%d", len - 4);
+		system(deaw);						//åˆ†æ•°+1
 		map[i] = -1;
 		map_temp[i] = 1;
 	}
-	else for (i = 0; i < Width * Width; i++)//Ã»³Ôµ½Ê³Îï£¬È«²¿ÉßÉíÖµ-1
+	else for (i = 0; i < Width * Width; i++)//æ²¡åƒåˆ°é£Ÿç‰©ï¼Œå…¨éƒ¨è›‡èº«å€¼-1
 		if (map[i] > 0)
 		{
 			map[i] -= 1;
@@ -310,30 +310,30 @@ void Food()
 		}
 }
 
-//º¯Êı¹¦ÄÜ£º´òÓ¡»­Ãæ
+//å‡½æ•°åŠŸèƒ½ï¼šæ‰“å°ç”»é¢
 void Print_Map()
 {
-	for (i = 0; i < Width * Width * 2; i++)							//¸üĞÂ»æÖÆ»º´æ
+	for (i = 0; i < Width * Width * 2; i++)							//æ›´æ–°ç»˜åˆ¶ç¼“å­˜
 	{
-		if (map_temp[i / 2] == 1 && map[i / 2] == 0)				//´òÓ¡¿ÕµØ
+		if (map_temp[i / 2] == 1 && map[i / 2] == 0)				//æ‰“å°ç©ºåœ°
 		{
 			Hide_Move_Cursor(i % (Width * 2), i / (Width * 2));
 			SetConsoleColor(240);
 			printf(" ");
 		}
-		else if (map_temp[i / 2] == 1 && map[i / 2] > 0)			//´òÓ¡ÉßÉí
+		else if (map_temp[i / 2] == 1 && map[i / 2] > 0)			//æ‰“å°è›‡èº«
 		{
 			Hide_Move_Cursor(i % (Width * 2), i / (Width * 2));
 			SetConsoleColor(192);
 			printf(" ");
 		}
-		else if (map_temp[i / 2] == 1 && map[i / 2] == -2)			//´òÓ¡Ç½
+		else if (map_temp[i / 2] == 1 && map[i / 2] == -2)			//æ‰“å°å¢™
 		{
 			Hide_Move_Cursor(i % (Width * 2), i / (Width * 2));
 			SetConsoleColor(130);
 			printf(" ");
 		}
-		else if (map_temp[i / 2] == 1 && map[i / 2] == -1)			//´òÓ¡Ê³Îï
+		else if (map_temp[i / 2] == 1 && map[i / 2] == -1)			//æ‰“å°é£Ÿç‰©
 		{
 			Hide_Move_Cursor(i % (Width * 2), i / (Width * 2));
 			SetConsoleColor(160);
@@ -342,36 +342,36 @@ void Print_Map()
 	}
 }
 
-//º¯Êı¹¦ÄÜ£º½«¹â±êÒÆÖÁÖ¸¶¨Î»ÖÃ²¢Òş²Ø
+//å‡½æ•°åŠŸèƒ½ï¼šå°†å…‰æ ‡ç§»è‡³æŒ‡å®šä½ç½®å¹¶éšè—
 void Hide_Move_Cursor(int x, int y)
 {
-	CONSOLE_CURSOR_INFO cursorInfo = { 25 };		//Òş²Ø¿ØÖÆÌ¨¹â±ê
-	COORD pos = { 0 };								//½«¹â±êÒÆµ½³õÊ¼´¦
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);	//»ñÈ¡±ê×¼Êä³öÉè±¸¾ä±ú
+	CONSOLE_CURSOR_INFO cursorInfo = { 25 };		//éšè—æ§åˆ¶å°å…‰æ ‡
+	COORD pos = { 0 };								//å°†å…‰æ ‡ç§»åˆ°åˆå§‹å¤„
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);	//è·å–æ ‡å‡†è¾“å‡ºè®¾å¤‡å¥æŸ„
 	pos.X = x; pos.Y = y;
-	SetConsoleCursorInfo(hOut, &cursorInfo);		//ÉèÖÃ¿ØÖÆÌ¨¹â±êĞÅÏ¢
-	SetConsoleCursorPosition(hOut, pos);			//¶¨Î»¹â±êÎ»ÖÃ
+	SetConsoleCursorInfo(hOut, &cursorInfo);		//è®¾ç½®æ§åˆ¶å°å…‰æ ‡ä¿¡æ¯
+	SetConsoleCursorPosition(hOut, pos);			//å®šä½å…‰æ ‡ä½ç½®
 }
 
-//º¯Êı¹¦ÄÜ£ºÉèÖÃÑÕÉ«
+//å‡½æ•°åŠŸèƒ½ï¼šè®¾ç½®é¢œè‰²
 BOOL SetConsoleColor(unsigned int wAttributes)
 {
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);		//»ñÈ¡±ê×¼Êä³öÉè±¸¾ä±ú
-	if (hOut == INVALID_HANDLE_VALUE)					//ÅĞ¶ÏÊÇ·ñ»ñÈ¡µ½±ê×¼Êä³öÉè±¸
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);		//è·å–æ ‡å‡†è¾“å‡ºè®¾å¤‡å¥æŸ„
+	if (hOut == INVALID_HANDLE_VALUE)					//åˆ¤æ–­æ˜¯å¦è·å–åˆ°æ ‡å‡†è¾“å‡ºè®¾å¤‡
 	{
 		return FALSE;
 	}
-	return SetConsoleTextAttribute(hOut, wAttributes);	//·µ»Ø¹â±êÑÕÉ«ÉèÖÃ
+	return SetConsoleTextAttribute(hOut, wAttributes);	//è¿”å›å…‰æ ‡é¢œè‰²è®¾ç½®
 }
 
-//º¯Êı¹¦ÄÜ£ºÓÎÏ·½áÊøÊ±·ÀÖ¹Îó´¥¿´²»µ½·ÖÊı
+//å‡½æ•°åŠŸèƒ½ï¼šæ¸¸æˆç»“æŸæ—¶é˜²æ­¢è¯¯è§¦çœ‹ä¸åˆ°åˆ†æ•°
 int  GameOver()
 {
 	for (; 1;)
 	{
 		j = _getch();
-		if (j == ' ' || j == '0')return 1;				//ÊäÈë¿Õ¸ñ»ò0ÖØĞÂ¿ªÊ¼
-		else if (j == 27)return 0;						//ÊäÈëEsc£¨ÂëÖµ27£©ÍË³ö
+		if (j == ' ' || j == '0')return 1;				//è¾“å…¥ç©ºæ ¼æˆ–0é‡æ–°å¼€å§‹
+		else if (j == 27)return 0;						//è¾“å…¥Escï¼ˆç å€¼27ï¼‰é€€å‡º
 		else return GameOver();
 	}
 }
